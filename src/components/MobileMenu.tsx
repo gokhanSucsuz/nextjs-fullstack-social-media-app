@@ -12,10 +12,11 @@ const MobileMenu = () => {
 			</div>
 			{isOpen && <div className="absolute top-24 left-0 w-full h-[calc(100vh-96px)] flex flex-col space-y-10 items-center justify-center bg-white font-medium text-3xl z-10">
 					<Link href={"/"}>Home</Link>
-					<Link href={"/"}>About</Link>
-					<Link href={"/"}>Contact</Link>
-					<Link href={"/"}>Blog</Link>
-					<Link href={"/"}>Careers</Link>
+					<Link href={"/about"}>About</Link>
+					<Link href={"/contact"}>Contact</Link>
+					<Link href={"/blog"}>Blog</Link>
+					<Link href={"/careers"}>Careers</Link>
+					<div className="flex flex-col items-center gap-4 lg:hidden" />
 				</div>}
 		</div>;
 };

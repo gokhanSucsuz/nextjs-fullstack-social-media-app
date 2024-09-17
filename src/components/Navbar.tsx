@@ -38,7 +38,7 @@ const Navbar = () => {
 					<Image src="/search.png" alt="alt" width={14} height={14} className="w-4 h-4 cursor-pointer" />
 				</div>
 			</div>
-			<div className="flex space-x-10">
+			<div className="flex space-x-16">
 				<div className="w-[30%] flex items-center justify-center gap-4 xl:gap-8 z-10000">
 					<MobileMenu />
 				</div>

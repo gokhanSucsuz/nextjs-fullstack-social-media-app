@@ -1,20 +1,45 @@
+import prisma from "@/lib/client";
+import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import React from "react";
 
 const AddPost = () => {
-	return <div className="p-4 bg-white rounded-lg flex gap-4 justify-between shadow-md text-x">
+	const { userId } = auth();
+	console.log(userId);
+
+	return (
+		<div className="p-4 bg-white rounded-lg flex gap-4 justify-between shadow-md text-x">
 			<div className="flex gap-8 w-full">
 				{/* Avatar */}
 				<div className="flex items-center gap-2 ">
-					<Image src="https://images.pexels.com/photos/21833100/pexels-photo-21833100/free-photo-of-sokak-seyahat-yolculuk-bruksel.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt="" width={48} height={48} className="min-w-[48px] min-h-[48px] w-12 h-12 rounded-full object-cover" />
+					<Image
+						src="https://images.pexels.com/photos/21833100/pexels-photo-21833100/free-photo-of-sokak-seyahat-yolculuk-bruksel.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+						alt=""
+						width={48}
+						height={48}
+						className="min-w-[48px] min-h-[48px] w-12 h-12 rounded-full object-cover"
+					/>
 				</div>
 				{/* POST */}
 				<div className="flex-1 items-center">
 					{/* TEXT INPUT */}
-					<div className="flex gap-4">
-						<textarea className="border-none outline-none bg-slate-100 text-sm p-2 rounded-lg flex-1 flex w-[10%]" cols={30} rows={3} placeholder="What's on your mind?" />
-						<Image src="/emoji.png" alt="emoji" width={20} height={20} className="w-5 h-5 cursor-pointer self-end" />
-					</div>
+					<form action="" className="flex gap-4">
+						<textarea
+							className="border-none outline-none bg-slate-100 text-sm p-2 rounded-lg flex-1 flex w-[10%]"
+							name="desc"
+							cols={30}
+							rows={3}
+							placeholder="What's on your mind?"
+						/>
+						<Image
+							src="/emoji.png"
+							alt="emoji"
+							width={20}
+							height={20}
+							className="w-5 h-5 cursor-pointer self-end"
+						/>
+						<button>Send</button>
+					</form>
 					{/* POST OPTIONS */}
 
 					<div className="flex items-center gap-4 mt-4 text-gray-400 flex-wrap">
@@ -37,7 +62,8 @@ const AddPost = () => {
 					</div>
 				</div>
 			</div>
-		</div>;
+		</div>
+	);
 };
 
 export default AddPost;

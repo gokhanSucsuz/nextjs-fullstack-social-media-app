@@ -5,7 +5,6 @@ import React from "react";
 
 const AddPost = () => {
 	const { userId } = auth();
-	console.log(userId);
 
 	return (
 		<div className="p-4 bg-white rounded-lg flex gap-4 justify-between shadow-md text-x">

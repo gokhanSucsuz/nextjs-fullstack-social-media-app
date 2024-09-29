@@ -23,7 +23,6 @@ const ProfileCard = async () => {
 	});
 	
 
-console.log(user?.cover)
 
 	return (
 		<div className="flex flex-col gap-6 w-full p-4 bg-white shadow-md rounded-lg">

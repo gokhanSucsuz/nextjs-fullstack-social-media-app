@@ -1,10 +1,18 @@
 import Feed from "@/components/Feed";
 import LeftMenu from "@/components/LeftMenu";
 import RightMenu from "@/components/RightMenu";
+import prisma from "@/lib/client";
+import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import React from "react";
 
-const ProfilePage = () => {
+const ProfilePage = async ({ params }: { params: { username: string } }) => {
+	const username = params.username;
+	const user = await prisma.user.findFirst({
+		where: {
+			username
+		}
+	});
 	return (
 		<div className="flex gap-6 pt-6">
 			<div className="hidden xl:block w-[20%]">

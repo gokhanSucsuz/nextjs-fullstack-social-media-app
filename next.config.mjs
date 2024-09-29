@@ -7,6 +7,16 @@ const nextConfig = {
         hostname: 'images.pexels.com',
         port: '',
         pathname: '/**',
+      }, {
+        protocol: 'https',
+        hostname: 'png.pngtree.com',
+        port: '',
+        pathname: '/**',
+      }, {
+        protocol: 'https',
+        hostname: 'img.clerk.com',
+        port: '',
+        pathname: '/**',
       }
     ]
   },

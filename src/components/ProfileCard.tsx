@@ -1,18 +1,41 @@
+import prisma from "@/lib/client";
+import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import React from "react";
 
-const ProfileCard = () => {
+const ProfileCard = async () => {
+	const { userId } = auth();
+	if (!userId) {
+		return null;
+	}
+
+	const user = await prisma.user.findFirst({
+		where: {
+			id: userId
+		},
+		include: {
+			_count: {
+				select: {
+					followers: true
+				}
+			}
+		}
+	});
+	
+
+console.log(user?.cover)
+
 	return (
 		<div className="flex flex-col gap-6 w-full p-4 bg-white shadow-md rounded-lg">
 			<div className="h-20 relative">
 				<Image
-					src="https://images.pexels.com/photos/1912868/pexels-photo-1912868.jpeg?auto=compress&cs=tinysrgb&w=600"
+					src={user?.cover ? user.cover : "/noCover.png"}
 					alt="profile"
 					fill
 					className="rounded-md object-cover"
 				/>
 				<Image
-					src="https://images.pexels.com/photos/3034903/pexels-photo-3034903.jpeg?auto=compress&cs=tinysrgb&w=600"
+					src={user?.avatar ? user.avatar : "/noAvatar.png"}
 					alt="profile"
 					width={1000}
 					height={1000}
@@ -21,35 +44,35 @@ const ProfileCard = () => {
 			</div>
 			<div className="flex justify-center flex-col items-center">
 				<span className="font-bold text-lg p-2 text-center">
-					Jennifer Eve Sponge
+					{user?.username}
 				</span>
 				<div className="flex justify-evenly items-center w-full p-2">
 					<div className="flex gap-1">
 						<Image
 							src="https://images.pexels.com/photos/994172/pexels-photo-994172.jpeg?auto=compress&cs=tinysrgb&w=600"
 							alt="verified"
-							width={1000}
-							height={1000}
+							width={16}
+							height={16}
 							className="w-4 h-4 rounded-full"
 						/>
 						<Image
 							src="https://images.pexels.com/photos/994172/pexels-photo-994172.jpeg?auto=compress&cs=tinysrgb&w=600"
 							alt="verified"
-							width={1000}
-							height={1000}
+							width={16}
+							height={16}
 							className="w-4 h-4 rounded-full"
 						/>
 						<Image
 							src="https://images.pexels.com/photos/994172/pexels-photo-994172.jpeg?auto=compress&cs=tinysrgb&w=600"
 							alt="verified"
-							width={1000}
-							height={1000}
+							width={16}
+							height={16}
 							className="w-4 h-4 rounded-full"
 						/>
 					</div>
-					<span className="text-xs text-slate-500">500 followers</span>
+					<span className="text-xs text-slate-500">{user?._count.followers} followers</span>
 				</div>
-				<button className="py-2 px-4 mt-2 bg-blue-500 rounded-lg text-white">
+				<button className="py-2 px-4 mt-2 bg-blue-500 text-sm rounded-lg text-white">
 					My Profile
 				</button>
 			</div>

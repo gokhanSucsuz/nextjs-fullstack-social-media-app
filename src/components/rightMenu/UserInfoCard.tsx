@@ -50,7 +50,7 @@ const UserInfoCard = async({ user }: { user: User }) => {
 			<div className="flex items-center w-full justify-between p-4 text-sm">
 				<span className="font-bold text-slate-500">User Information</span>
 				
-				{currentUserId === user?.id ? <UpdateUser /> : <Link href="/" className="text-blue-400 text-xs">
+				{currentUserId === user?.id ? <UpdateUser user={user} /> : <Link href="/" className="text-blue-400 text-xs">
 					See all
 				</Link>}
 			</div>

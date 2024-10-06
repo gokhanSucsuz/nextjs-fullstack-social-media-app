@@ -17,8 +17,7 @@ const UserMediaCard = async ({ user }: { user: User }) => {
 			createdAt: "desc"
 		}
 	});
-	return (
-		<div className="bg-white shadow-md w-full flex flex-col rounded-lg">
+	return <div className="bg-white shadow-md w-full flex flex-col rounded-lg">
 			<div className="flex items-center w-full justify-between p-4 text-sm">
 				<span className="font-bold text-slate-500">User Media</span>
 				<Link href="/" className="text-blue-400 text-xs">
@@ -26,22 +25,19 @@ const UserMediaCard = async ({ user }: { user: User }) => {
 				</Link>
 			</div>
 			<div className="flex flex-wrap justify-center items-center w-full gap-3 p-2">
-				{postWithMedia.length
-					? postWithMedia.map(post =>
+				{postWithMedia.length ? postWithMedia.map(post =>
 							<Link key={post.id} href={`${post.img}`}>
 								<Image
-									src="https://images.pexels.com/photos/28248795/pexels-photo-28248795/free-photo-of-elma-kurutma.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+									src={post.img!}
 									alt="alt"
 									width={80}
 									height={80}
 									className="rounded-lg w-20 h-20 object-cover"
 								/>
 							</Link>
-						)
-					: "No Media found!"}
+						) : "No Media found!"}
 			</div>
-		</div>
-	);
+		</div>;
 };
 
 export default UserMediaCard;

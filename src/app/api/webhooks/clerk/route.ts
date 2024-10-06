@@ -44,17 +44,10 @@ export async function POST(req: Request) {
 		}) as WebhookEvent;
 	} catch (err) {
 		console.error("Error verifying webhook:", err);
-		return new Response("Error occured", {
-			status: 400
-		});
+		return new Response("Error occured", { status: 400 });
 	}
-
-	// Do something with the payload
-	// For this guide, you simply log the payload to the console
 	const { id } = evt.data;
 	const eventType = evt.type;
-	// console.log(`Webhook with and ID of ${id} and type of ${eventType}`)
-	// console.log('Webhook body:', body)
 
 	if (eventType === "user.created") {
 		try {

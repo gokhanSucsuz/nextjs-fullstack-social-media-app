@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import UserInfoCardInteraction from "./UserInfoCardInteraction";
+import UpdateUser from "../UpdateUser";
+
 
 const UserInfoCard = async({ user }: { user: User }) => {
 	const createdDate = new Date(user?.createdAd)
@@ -47,9 +49,10 @@ const UserInfoCard = async({ user }: { user: User }) => {
 		<div className="bg-white shadow-md w-full flex flex-col rounded-lg">
 			<div className="flex items-center w-full justify-between p-4 text-sm">
 				<span className="font-bold text-slate-500">User Information</span>
-				<Link href="/" className="text-blue-400 text-xs">
+				
+				{currentUserId === user?.id ? <UpdateUser /> : <Link href="/" className="text-blue-400 text-xs">
 					See all
-				</Link>
+				</Link>}
 			</div>
 			<div className="flex flex-col gap-4 text-sm">
 				<div className="flex items-center px-2">

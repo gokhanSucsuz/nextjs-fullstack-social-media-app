@@ -75,11 +75,11 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
 										<span className="font-medium">Posts</span>
 									</span>
 									<span className="text-xs text-slate-500 flex flex-col">
-										<span>{user?._count.followers} K</span>
+										<span>{user?._count.followers}</span>
 										<span className="font-medium">Followers</span>
 									</span>
 									<span className="text-xs text-slate-500 flex flex-col">
-										<span>{user?._count.followings} K</span>
+										<span>{user?._count.followings}</span>
 										<span className="font-medium">Following</span>
 									</span>
 								</div>

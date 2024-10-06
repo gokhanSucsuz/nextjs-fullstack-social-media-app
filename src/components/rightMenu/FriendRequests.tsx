@@ -1,8 +1,25 @@
+import prisma from "@/lib/client";
+import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import FriendRequestList from "./FriendRequestList";
 
-const FriendRequests = () => {
+const FriendRequests = async () => {
+	const { userId } = auth();
+	if (!userId) {
+		return null;
+	}
+
+	const requests = await prisma.followRequest.findMany({
+		where: {
+			receiverId: userId
+		},
+		include: {
+			sender: true
+		}
+	});
+	if (requests.length === 0) return null;
 	return (
 		<div className="bg-white shadow-md w-full flex flex-col rounded-lg">
 			<div className="flex items-center w-full justify-between p-4 text-sm">
@@ -11,54 +28,7 @@ const FriendRequests = () => {
 					See all
 				</Link>
 			</div>
-			<div className="flex w-full">
-				<div className="flex flex-2 items-center gap-4 p-4">
-					<Image
-						src="https://images.pexels.com/photos/386025/pexels-photo-386025.jpeg?auto=compress&cs=tinysrgb&w=600"
-						alt="alt"
-						width={400}
-						height={400}
-						className="w-10 h-10 rounded-full object-cover"
-					/>
-					<span className="font-semibold text-slate-800">Freddy Keuger</span>
-				</div>
-				<div className="flex flex-1 items-center justify-end w-full gap-4 p-4">
-					<Image src={"/accept.png"} alt="alt" width={16} height={16} />
-					<Image src={"/reject.png"} alt="alt" width={16} height={16} />
-				</div>
-			</div>
-			<div className="flex w-full">
-				<div className="flex flex-2 items-center gap-4 p-4">
-					<Image
-						src="https://images.pexels.com/photos/386025/pexels-photo-386025.jpeg?auto=compress&cs=tinysrgb&w=600"
-						alt="alt"
-						width={400}
-						height={400}
-						className="w-10 h-10 rounded-full object-cover"
-					/>
-					<span className="font-semibold text-slate-800">Freddy Keuger</span>
-				</div>
-				<div className="flex flex-1 items-center justify-end w-full gap-4 p-4">
-					<Image src={"/accept.png"} alt="alt" width={16} height={16} />
-					<Image src={"/reject.png"} alt="alt" width={16} height={16} />
-				</div>
-			</div>
-			<div className="flex w-full">
-				<div className="flex flex-2 items-center gap-4 p-4">
-					<Image
-						src="https://images.pexels.com/photos/386025/pexels-photo-386025.jpeg?auto=compress&cs=tinysrgb&w=600"
-						alt="alt"
-						width={400}
-						height={400}
-						className="w-10 h-10 rounded-full object-cover"
-					/>
-					<span className="font-semibold text-slate-800">Freddy Keuger</span>
-				</div>
-				<div className="flex flex-1 items-center justify-end w-full gap-4 p-4">
-					<Image src={"/accept.png"} alt="alt" width={16} height={16} />
-					<Image src={"/reject.png"} alt="alt" width={16} height={16} />
-				</div>
-			</div>
+			<FriendRequestList requests={requests} />
 		</div>
 	);
 };

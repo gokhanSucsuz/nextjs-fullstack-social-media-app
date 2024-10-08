@@ -1,8 +1,15 @@
 import Image from "next/image";
 import React from "react";
 import Comments from "./Comments";
+import { Post as PostType, User } from "@prisma/client";
 
-const Post = () => {
+type FeedPostType = PostType & { user: User } & {
+		likes: [{ userId: string }];
+	} & {
+		_count: { comments: number };
+	};
+
+const Post = ({ post }: { post: FeedPostType }) => {
 	return (
 		<div className="p-4 rounded-lg flex flex-col w-full">
 			{/* USER */}
@@ -10,15 +17,17 @@ const Post = () => {
 				{/* AVATAR */}
 				<div className="flex items-center justify-start gap-2 w-full cursor-pointer">
 					<Image
-						src={
-							"https://images.pexels.com/photos/9969239/pexels-photo-9969239.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-						}
+						src={post.user.avatar || "/noAvatar.png"}
 						alt="avatar"
 						width={32}
 						height={32}
 						className="w-8 h-8 rounded-full"
 					/>
-					<span className="font-bold text-md">Cristina Leonard</span>
+					<span className="font-bold text-md">
+						{post.user.name && post.user.surname
+							? post.user.name + " " + post.user.surname
+							: post.user.username}
+					</span>
 				</div>
 				<Image
 					className="cursor-pointer"
@@ -30,27 +39,22 @@ const Post = () => {
 			</div>
 			{/* DESCRIPTION */}
 			<div className="flex w-full p-2 flex-col relative">
-				<Image
-					src="https://images.pexels.com/photos/28436954/pexels-photo-28436954/free-photo-of-avrupa-eski-kentinde-manzarali-nehir-kenari-manzarasi.jpeg"
-					alt="alt"
-					width={1000}
-					height={192}
-					className="w-full h-80 object-cover cursor-pointer rounded-lg m-2"
-				/>
+				{post.img &&
+					<Image
+						alt={post.desc}
+						src={post.img}
+						width={1000}
+						height={192}
+						className="w-full h-80 object-cover cursor-pointer rounded-lg m-2"
+					/>}
 				<div>
 					<h3 className="text-md font-bold p-2 indent-10">
 						<span className=" cursor-pointer hover:underline-offset-2 hover:underline">
-							Title of the post
+							{post.title}
 						</span>
 					</h3>
 					<p className="text-md flex p-2 indent-10">
-						Lorem ipsum dolor sit, amet consectetur adipisicing elit. Qui
-						aspernatur suscipit tenetur accusantium inventore porro magni,
-						voluptates quae quibusdam, vel excepturi unde sit temporibus ipsum
-						error? Impedit vitae culpa, aliquam atque dolorum nostrum vero quam
-						nobis, quod sapiente quos esse, expedita natus explicabo ipsa aut
-						quisquam facilis fugit molestiae adipisci sunt. Sint laudantium ab
-						numquam veritatis voluptates eligendi nihil necessitatibus.
+						{post.desc}
 					</p>
 				</div>
 			</div>
@@ -94,7 +98,7 @@ const Post = () => {
 					/>
 					<span className="text-sm text-slate-300">|</span>
 					<span>
-						123 <span className="hidden md:inline">Shares</span>
+						<span className="hidden md:inline">Share</span>
 					</span>
 				</div>
 			</div>

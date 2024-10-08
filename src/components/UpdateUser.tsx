@@ -3,17 +3,26 @@ import { updateProfile } from "@/lib/actions";
 import { User } from "@prisma/client";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useActionState, useState } from "react";
+import UpdateButton from "./rightMenu/UpdateButton";
 
 const UpdateUser = ({ user }: { user: User }) => {
 	const [open, setOpen] = useState(false);
 	const [cover, setCover] = useState<any>("");
-
+	const router = useRouter()
+	
+		const [state, formAction] = useActionState(updateProfile, { success: false, error: false })
 	const handleClose = () => {
 		setOpen(false);
+		state.success && router.refresh()
+	
 	};
 
-	const [state, formAction]=useActionState(updateProfile,{success:false, error:false})
+
+
+	
+	
 	return (
 		<div>
 			<span
@@ -144,9 +153,7 @@ const UpdateUser = ({ user }: { user: User }) => {
 								/>
 							</div>
 						</div>
-						<button className="bg-blue-500 text-white px-4 py-2 mt-2 rounded-lg">
-							Update
-						</button>
+						<UpdateButton />
 						{state?.success && <span className="text-green-500">Profile has been updated!</span>}
 						{state?.error && <span className="text-red-500">Something went wrong!</span>}
 						<div

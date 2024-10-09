@@ -1,10 +1,17 @@
+"use client";
 import prisma from "@/lib/client";
-import { auth } from "@clerk/nextjs/server";
+import { useUser } from "@clerk/nextjs";
+import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
+import AddPostButton from "./AddPostButton";
+import { addPost } from "@/lib/actions";
 
 const AddPost = () => {
-	const { userId } = auth();
+	const { user, isLoaded } = useUser();
+	const [desc, setDesc] = useState("")
+	const [img, setImg]=useState<any>("")
+	if (!isLoaded) return "Loading...";
 
 	return (
 		<div className="p-4 bg-white rounded-lg flex gap-4 justify-between shadow-md text-x">
@@ -12,7 +19,7 @@ const AddPost = () => {
 				{/* Avatar */}
 				<div className="flex items-center gap-2 ">
 					<Image
-						src="https://images.pexels.com/photos/21833100/pexels-photo-21833100/free-photo-of-sokak-seyahat-yolculuk-bruksel.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+						src={user?.imageUrl || "/noAvatar.png"}
 						alt=""
 						width={48}
 						height={48}
@@ -22,13 +29,14 @@ const AddPost = () => {
 				{/* POST */}
 				<div className="flex-1 items-center">
 					{/* TEXT INPUT */}
-					<form action="" className="flex gap-4">
+					<form action={(formData)=>addPost(formData,img?.secure_url || "")} className="flex gap-4">
 						<textarea
 							className="border-none outline-none bg-slate-100 text-sm p-2 rounded-lg flex-1 flex w-[10%]"
 							name="desc"
 							cols={30}
 							rows={3}
 							placeholder="What's on your mind?"
+							onChange={e=> setDesc(e.target.value)}
 						/>
 						<Image
 							src="/emoji.png"
@@ -37,15 +45,25 @@ const AddPost = () => {
 							height={20}
 							className="w-5 h-5 cursor-pointer self-end"
 						/>
-						<button>Send</button>
+						<AddPostButton/>
 					</form>
 					{/* POST OPTIONS */}
 
 					<div className="flex items-center gap-4 mt-4 text-gray-400 flex-wrap">
-						<div className="flex gap-2 items-center cursor-pointer flex-shrink-0">
+						<CldUploadWidget
+							uploadPreset="social"
+							onSuccess={(result, { widget }) => { setImg(result.info); widget.close()}}
+						>
+							{({ open }) => {
+								return (
+									<div className="flex gap-2 items-center cursor-pointer flex-shrink-0"
+										onClick={() => open()}>
 							<Image src="/addimage.png" alt="alt" width={16} height={16} />
 							<span className="text-sm">Photo</span>
 						</div>
+								);
+							}}
+						</CldUploadWidget>
 						<div className="flex gap-2  items-center cursor-pointer flex-shrink-0">
 							<Image src="/addVideo.png" alt="alt" width={16} height={16} />
 							<span className="text-sm">Video</span>

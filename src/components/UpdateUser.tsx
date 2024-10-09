@@ -16,13 +16,7 @@ const UpdateUser = ({ user }: { user: User }) => {
 	const handleClose = () => {
 		setOpen(false);
 		state.success && router.refresh()
-	
 	};
-
-
-
-	
-	
 	return (
 		<div>
 			<span

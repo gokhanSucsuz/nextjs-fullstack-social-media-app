@@ -44,7 +44,9 @@ const ProfileCard = async () => {
 			</div>
 			<div className="flex justify-center flex-col items-center">
 				<span className="font-bold text-lg p-2 text-center">
-					{user?.username}
+					{user?.name && user.surname
+            ? user.name + " " + user.surname
+            : user?.username}
 				</span>
 				<div className="flex justify-evenly items-center w-full p-2">
 					<div className="flex gap-1">
